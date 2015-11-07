@@ -168,7 +168,7 @@ public async Task<JsonResult> LoginExternal(LoginExternalModel model)
   
   try
   {
-      user = await _membershipService.LoginExternal(loginData);
+      user = await _accountsService.LoginExternal(loginData);
   }
   catch (Exception)
   {

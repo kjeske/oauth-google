@@ -13,8 +13,11 @@ index.cshtml:
 <script src="https://apis.google.com/js/api:client.js"></script>
 
 <script>
+    var clientId = '@ConfigurationManager.AppSettings["GoogleAuth.ClientId"]';
+    var validationUrl = '/Account/LoginExternal';
+    
     function initExternalLogin() {
-        var googleLogin = new GoogleLogin('@ConfigurationManager.AppSettings["GoogleAuth.ClientId"]', '/Account/LoginExternal');
+        var googleLogin = new GoogleLogin(clientId, validationUrl);
         googleLogin.attachButton(document.getElementById('loginGoogle'));
     }
     
@@ -37,7 +40,6 @@ function GoogleLogin(clientId, validationUrl) {
     this.validationUrl = validationUrl;
     
     gapi.load('auth2', function () {
-        // Retrieve the singleton for the GoogleAuth library and set up the client.
         self.auth2 = gapi.auth2.init({
             client_id: clientId,
             cookiepolicy: 'single_host_origin',
@@ -91,7 +93,7 @@ public async Task<User> LoginExternal(LoginExternal model)
         throw new InvalidOperationException("Provider not supported");
     }
 
-    // login here using cookies/token
+    // set cookies or generate a token
 
     return user;
 }
@@ -107,8 +109,8 @@ private async Task LoginExternalGoogleValidate(LoginExternal model)
 
         var result = await message.Content.ReadAsAsync<UserLoginExternalGoogleResult>();
 
-        if (!result.EmailVerified || result.Email != model.Email ||
-            result.Audience != ConfigurationManager.AppSettings["GoogleAuth.ClientId"])
+        if (!result.EmailVerified || result.Email != model.Email 
+              || result.Audience != ConfigurationManager.AppSettings["GoogleAuth.ClientId"])
         {
             throw new InvalidOperationException("Validation error");
         }
@@ -121,13 +123,9 @@ LoginExternal.cs:
 public class LoginExternal
 {
     public string Provider { get; set; }
-
     public string Name { get; set; }
-
     public string Email { get; set; }
-
     public string ImageUrl { get; set; }
-
     public string Token { get; set; }
 }
 ```
@@ -137,16 +135,10 @@ LoginExternalModel.cs
 public class LoginExternalModel
 {
     public string Provider { get; set; }
-
     public string Name { get; set; }
-
     public string Email { get; set; }
-
     public string ImageUrl { get; set; }
-
     public string Token { get; set; }
-
-    public string InvitationToken { get; set; }
 }
 
 ```
@@ -155,8 +147,6 @@ AccountController.cs:
 ```csharp
 public async Task<JsonResult> LoginExternal(LoginExternalModel model)
 {
-  User user;
-  
   var loginData = new LoginExternal
   {
       Name = model.Name,
@@ -166,18 +156,18 @@ public async Task<JsonResult> LoginExternal(LoginExternalModel model)
       Token = model.Token
   };
   
+  User user;
+
   try
   {
       user = await _accountsService.LoginExternal(loginData);
   }
   catch (Exception)
   {
-      return this.AjaxError();
+      // failure
   }
 
-  // some extra logic
-
-  return this.JsonRedirect(successUrl);
+  // success
 }
 
 ```

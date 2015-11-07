@@ -8,7 +8,7 @@ web.config:
 </appSettings>
 ```
 
-index.html:
+index.cshtml:
 ```html
 <script src="https://apis.google.com/js/api:client.js"></script>
 

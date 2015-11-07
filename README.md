@@ -11,6 +11,7 @@ web.config:
 index.cshtml:
 ```html
 <script src="https://apis.google.com/js/api:client.js"></script>
+<script src="/location/to/scripts/oauth-google.js"></script>
 
 <script>
     var clientId = '@ConfigurationManager.AppSettings["GoogleAuth.ClientId"]';
@@ -147,7 +148,7 @@ public class LoginExternalModel
 
 ```
 
-UserLoginExternalGoogleResult:
+UserLoginExternalGoogleResult.cs:
 ```csharp
 public class UserLoginExternalGoogleResult
 {

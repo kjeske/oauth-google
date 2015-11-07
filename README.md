@@ -164,6 +164,7 @@ public class UserLoginExternalGoogleResult
 
 AccountController.cs:
 ```csharp
+[HttpPost]
 public async Task<JsonResult> LoginExternal(LoginExternalModel model)
 {
   var loginData = new LoginExternal

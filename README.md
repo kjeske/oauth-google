@@ -72,7 +72,7 @@ GoogleLogin.prototype.attachButton = function(element) {
 
             request.done(function (response) {
                 console.log('User logged in!');
-                // do something here with this successful response
+                window.location.href = response.redirectUrl;
             });
         }, function (message) {
             alert('Error');
@@ -187,6 +187,7 @@ public async Task<JsonResult> LoginExternal(LoginExternalModel model)
   }
 
   // success
+  return Json(new { redirectUrl: "/" });
 }
 
 ```

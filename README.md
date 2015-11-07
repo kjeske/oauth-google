@@ -70,7 +70,8 @@ GoogleLogin.prototype.attachButton = function(element) {
             });
 
             request.done(function (response) {
-                ajaxRequestSuccess(response);
+                console.log('User logged in!');
+                // do something here with this successful response
             });
         }, function (message) {
             alert('Error');

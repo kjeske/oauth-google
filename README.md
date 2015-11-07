@@ -93,7 +93,10 @@ public async Task<User> LoginExternal(LoginExternal model)
         throw new InvalidOperationException("Provider not supported");
     }
 
-    // set cookies or generate a token
+    // add user if doesn't exists or get existing
+    var user = ...;
+
+    // set auth cookies or generate a token
 
     return user;
 }

@@ -1,7 +1,7 @@
 # oauth-google
 
 web.config:
-```
+```xml
 <appSettings>
   <add key="GoogleAuth.ClientId" value="YOUR_CLIENT_ID" />
   <add key="GoogleAuth.VerifyUrl" value="https://www.googleapis.com/oauth2/v3/tokeninfo?id_token={token}" />
@@ -9,7 +9,9 @@ web.config:
 ```
 
 index.html:
-```
+```html
+<script src="https://apis.google.com/js/api:client.js"></script>
+
 <script>
     function initExternalLogin() {
         var googleLogin = new GoogleLogin('@ConfigurationManager.AppSettings["GoogleAuth.ClientId"]', '/Account/LoginExternal');
@@ -28,7 +30,7 @@ index.html:
 ```
 
 oauth-google.js:
-```
+```js
 function GoogleLogin(clientId, validationUrl) {
     var self = this;
 
@@ -77,7 +79,7 @@ GoogleLogin.prototype.attachButton = function(element) {
 ```
 
 AccountsService.cs:
-```
+```csharp
 public async Task<User> LoginExternal(LoginExternal model)
 {
     if (model.Provider == "google")
@@ -115,7 +117,7 @@ private async Task LoginExternalGoogleValidate(LoginExternal model)
 ```
 
 LoginExternal.cs:
-```
+```csharp
 public class LoginExternal
 {
     public string Provider { get; set; }
@@ -131,7 +133,7 @@ public class LoginExternal
 ```
 
 LoginExternalModel.cs
-```
+```csharp
 public class LoginExternalModel
 {
     public string Provider { get; set; }
@@ -150,7 +152,7 @@ public class LoginExternalModel
 ```
 
 AccountController.cs:
-```
+```csharp
 public async Task<JsonResult> LoginExternal(LoginExternalModel model)
 {
   User user;

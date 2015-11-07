@@ -130,6 +130,25 @@ public class LoginExternal
 }
 ```
 
+LoginExternalModel.cs
+```
+public class LoginExternalModel
+{
+    public string Provider { get; set; }
+
+    public string Name { get; set; }
+
+    public string Email { get; set; }
+
+    public string ImageUrl { get; set; }
+
+    public string Token { get; set; }
+
+    public string InvitationToken { get; set; }
+}
+
+```
+
 AccountController.cs:
 ```
 public async Task<JsonResult> LoginExternal(LoginExternalModel model)

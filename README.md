@@ -146,6 +146,20 @@ public class LoginExternalModel
 
 ```
 
+UserLoginExternalGoogleResult:
+```csharp
+public class UserLoginExternalGoogleResult
+{
+    public string Email { get; set; }
+
+    [JsonProperty("email_verified")]
+    public bool EmailVerified { get; set; }
+
+    [JsonProperty("aud")]
+    public string Audience { get; set; }
+}
+```
+
 AccountController.cs:
 ```csharp
 public async Task<JsonResult> LoginExternal(LoginExternalModel model)
